@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>basic</title>
+    <script src="./assets/vue.js"></script>
+    <script src="./assets/vue-router.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h1>routing with vue-router</h1>
+      <a v-link="/route1">route1</a>
+      <a v-link="/route2">route2</a>
+      <router-view></router-view>
+    </div>
+    <script>
+      function defineComponent (name) {
+        return {
+          template: '<p>route: {{$route.path}}</p>',
+          route: {
+            canReuse: function () {
+              console.log(name, 'router hook: canReuse')
+              return false
+            },
+            canDeactivate: function (transition) {
+              console.log(name, 'router hook: canDeactivate')
+              transition.next()
+            },
+            canActivate: function (transition) {
+              console.log(name, 'router hook: canActivate')
+              transition.next()
+            },
+            deactivate: function (transition) {
+              console.log(name, 'router hook: deactivate')
+              transition.next()
+            },
+            activate: function (transition) {
+              console.log(name, 'router hook: activate')
+              transition.next()
+            },
+            data: function (transition) {
+              console.log(name, 'router hook: data')
+              transition.next()
+            }
+          },
+          data: function () { return { msg: name } },
+          created: function () {
+            console.log(name, 'vm hook: created')
+          },
+          beforeCompile: function () {
+            console.log(name, 'vm hook: beforeCompile')
+          },
+          compiled: function () {
+            console.log(name, 'vm hook: compiled')
+          },
+          ready: function () {
+            console.log(name, 'vm hook: ready')
+          },
+          attached: function () {
+            console.log(name, 'vm hook: attached')
+          },
+          detached: function () {
+            console.log(name, 'vm hook: detached')
+          },
+          beforeDestroy: function () {
+            console.log(name, 'vm hook: beforeDestroy')
+          },
+          destroyed: function () {
+            console.log(name, 'vm hook: destroyed')
+          }
+        }
+      }
+
+      var App = Vue.extend({})
+
+      var router = new VueRouter() 
+      router.map({
+        '/route1': { component: defineComponent('component1') },
+        '/route2': { component: defineComponent('component2') }
+      })
+      router.redirect({
+        '/': '/route1'
+      })
+      router.start(App, '#app')
+    </script>
+  </body>
+</html>

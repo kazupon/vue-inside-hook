@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>basic</title>
+    <script src="./assets/vue.js"></script>
+    <script src="./assets/vue-router.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+      function defineComponent (name) {
+        return {
+          template: '<p>{{msg}}</p>',
+          data: { msg: 'hello ' + name },
+          created: function () {
+            console.log(name, 'vm hook: created')
+          },
+          beforeCompile: function () {
+            console.log(name, 'vm hook: beforeCompile')
+          },
+          compiled: function () {
+            console.log(name, 'vm hook: compiled')
+          },
+          ready: function () {
+            console.log(name, 'vm hook: ready')
+          },
+          attached: function () {
+            console.log(name, 'vm hook: attached')
+          },
+          detached: function () {
+            console.log(name, 'vm hook: detached')
+          },
+          beforeDestroy: function () {
+            console.log(name, 'vm hook: beforeDestroy')
+          },
+          destroyed: function () {
+            console.log(name, 'vm hook: destroyed')
+          }
+        }
+      }
+
+      var vm = new Vue(defineComponent('component1'))
+
+      console.log('mount ...')
+      vm.$mount('#app')
+      console.log('... mount done')
+
+      console.log('remove element ...')
+      vm.$remove()
+      console.log('... remove element done')
+
+      console.log('destroy ...')
+      vm.$destroy()
+      console.log('... destroy done')
+    </script>
+  </body>
+</html>
